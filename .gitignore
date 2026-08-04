@@ -1,6 +1,21 @@
+# Virtual environment
 venv/
+
+# Original research dataset (do not upload)
 Histopathology_Dataset/
-*.docx
-*.ipynb
+
+# Python cache
 __pycache__/
 *.pyc
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Dissertation document
+*.docx
+
+# Large models excluded from GitHub
+Histopathology_Deployment/Traindata/Trained_Models/cnn_svm_densenet201.pkl
+Histopathology_Deployment/Traindata/Trained_Models/cnn_svm_resnet50.pkl
+Histopathology_Deployment/Traindata/Trained_Models/rf_vgg16.pkl

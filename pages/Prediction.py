@@ -46,7 +46,7 @@ st.divider()
 
 BASE_PATH = os.path.join(
     os.getcwd(),
-    "Histopathology_Dataset",
+    "Histopathology_Deployment",
     "Traindata"
 )
 
@@ -71,14 +71,37 @@ feature_model = st.sidebar.selectbox(
     )
 )
 
-classifier = st.sidebar.selectbox(
-    "Classification Model",
-    (
+# ===============================================================
+# AVAILABLE CLASSIFIERS
+# ===============================================================
+
+if feature_model == "VGG16":
+
+    available_classifiers = (
         "CNN",
         "CNN-SVM",
+        "Gradient Boosting"
+    )
+
+elif feature_model == "ResNet50":
+
+    available_classifiers = (
+        "CNN",
         "Random Forest",
         "Gradient Boosting"
     )
+
+else:
+
+    available_classifiers = (
+        "CNN",
+        "Random Forest",
+        "Gradient Boosting"
+    )
+
+classifier = st.sidebar.selectbox(
+    "Classification Model",
+    available_classifiers
 )
 
 uploaded_image = st.sidebar.file_uploader(
