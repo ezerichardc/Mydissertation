@@ -39,22 +39,25 @@ classification model selected in the sidebar.
 
 st.divider()
 
-
 # ===============================================================
 # DATA PATHS
 # ===============================================================
 
-BASE_PATH = os.path.join(
-    os.getcwd(),
-    "Histopathology_Deployment",
-    "Traindata"
-)
-
 MODEL_PATH = os.path.join(
-    BASE_PATH,
-    "Trained_Models"
+    os.getcwd(),
+    "deployment_assets",
+    "model"
 )
 
+st.sidebar.write("Current working directory:")
+st.sidebar.code(os.getcwd())
+
+st.sidebar.write("Model folder exists:")
+st.sidebar.write(os.path.exists(MODEL_PATH))
+
+if os.path.exists(MODEL_PATH):
+    st.sidebar.write("Files found:")
+    st.sidebar.write(os.listdir(MODEL_PATH))
 
 # ===============================================================
 # SIDEBAR
