@@ -178,14 +178,14 @@ def load_classifier():
         filename = f"gb_{feature_model.lower()}.pkl"
 
 
-    model = joblib.load(
-        os.path.join(
-            MODEL_PATH,
-            filename
-        )
-    )
+    model_file = os.path.join(MODEL_PATH, filename)
 
-    return model
+st.write("Model path:", model_file)
+st.write("Exists:", os.path.exists(model_file))
+
+model = joblib.load(model_file)
+
+return model
 
 
 # ===============================================================
