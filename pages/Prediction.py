@@ -43,21 +43,13 @@ st.divider()
 # DATA PATHS
 # ===============================================================
 
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 MODEL_PATH = os.path.join(
-    os.getcwd(),
+    ROOT,
     "deployment_assets",
     "model"
 )
-
-st.sidebar.write("Current working directory:")
-st.sidebar.code(os.getcwd())
-
-st.sidebar.write("Model folder exists:")
-st.sidebar.write(os.path.exists(MODEL_PATH))
-
-if os.path.exists(MODEL_PATH):
-    st.sidebar.write("Files found:")
-    st.sidebar.write(os.listdir(MODEL_PATH))
 
 # ===============================================================
 # SIDEBAR
