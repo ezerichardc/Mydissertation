@@ -28,14 +28,14 @@ st.markdown("---")
 # PATHS
 # ==========================================================
 
-ROOT = r"C:\Users\hi\Desktop\Mydissertation\Histopathology_Dataset\Traindata"
+from pathlib import Path
 
-EVAL = os.path.join(ROOT, "Model_Evaluation")
+BASE_DIR = Path(__file__).resolve().parents[1]
 
-summary_file = os.path.join(
-    EVAL,
-    "Model_Evaluation_Summary.csv"
-)
+EVAL = BASE_DIR / "Histopathology_Deployment" / "Traindata" / "Model_Evaluation"
+
+summary_file = EVAL / "Model_Evaluation_Summary.csv"
+
 
 # ==========================================================
 # LOAD RESULTS
