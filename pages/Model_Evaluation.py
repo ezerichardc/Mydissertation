@@ -28,14 +28,18 @@ st.markdown("---")
 # PATHS
 # ==========================================================
 
-from pathlib import Path
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-BASE_DIR = Path(__file__).resolve().parents[1]
+EVAL = os.path.join(
+    BASE_DIR,
+    "deployment_assets",
+    "Model_Evaluation"
+)
 
-EVAL = BASE_DIR / "Histopathology_Deployment" / "Traindata" / "Model_Evaluation"
-
-summary_file = EVAL / "Model_Evaluation_Summary.csv"
-
+summary_file = os.path.join(
+    EVAL,
+    "Model_Evaluation_Summary.csv"
+)
 
 # ==========================================================
 # LOAD RESULTS
