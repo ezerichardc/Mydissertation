@@ -1,0 +1,6 @@
+venv/
+Histopathology_Dataset/
+*.docx
+*.ipynb
+__pycache__/
+*.pyc
