@@ -18,9 +18,13 @@ st.markdown("---")
 # PATHS
 # ==========================================================
 
-ROOT = r"C:\Users\hi\Desktop\Mydissertation\Histopathology_Dataset\Traindata"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-PROCESSED = os.path.join(ROOT, "Processed_Data")
+ASSETS = os.path.join(BASE_DIR, "deployment_assets")
+
+PROCESSED = os.path.join(ASSETS, "Processed_Data")
+
+SAMPLE_IMAGES = os.path.join(ASSETS, "Sample_Images")
 
 train_csv = os.path.join(PROCESSED, "train.csv")
 validation_csv = os.path.join(PROCESSED, "validation.csv")
@@ -135,7 +139,7 @@ image_extensions = (
 
 image_files = [
 
-    f for f in os.listdir(ROOT)
+    f for f in os.listdir(SAMPLE_IMAGES)
 
     if f.lower().endswith(image_extensions)
 
@@ -151,7 +155,7 @@ columns = st.columns(3)
 for i, file in enumerate(samples):
 
     image = Image.open(
-        os.path.join(ROOT, file)
+    os.path.join(SAMPLE_IMAGES, file)
     )
 
     columns[i % 3].image(
