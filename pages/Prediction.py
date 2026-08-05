@@ -43,13 +43,35 @@ st.divider()
 # DATA PATHS
 # ===============================================================
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_PATH = os.path.join(
+    os.getcwd(),
+    "deployment_assets"
+)
 
 MODEL_PATH = os.path.join(
-    ROOT,
-    "deployment_assets",
+    BASE_PATH,
     "model"
 )
+
+# ===============================================================
+# TEMPORARY DEBUG (DELETE LATER)
+# ===============================================================
+
+st.write("Current working directory:")
+st.write(os.getcwd())
+
+st.write("Base path:")
+st.write(BASE_PATH)
+
+st.write("Model path:")
+st.write(MODEL_PATH)
+
+st.write("Model folder exists:")
+st.write(os.path.exists(MODEL_PATH))
+
+if os.path.exists(MODEL_PATH):
+    st.write("Files inside model folder:")
+    st.write(os.listdir(MODEL_PATH))
 
 # ===============================================================
 # SIDEBAR
@@ -153,39 +175,35 @@ def load_classifier():
 
         filename = f"cnn_{feature_model.lower()}.keras"
 
-        model = load_model(
-            os.path.join(
-                MODEL_PATH,
-                filename
-            )
-        )
+        model_file = os.path.join(MODEL_PATH, filename)
+
+        st.write("Model path:", model_file)
+        st.write("Exists:", os.path.exists(model_file))
+
+        model = load_model(model_file)
 
         return model
-
 
     elif classifier == "CNN-SVM":
 
         filename = f"cnn_svm_{feature_model.lower()}.pkl"
 
-
     elif classifier == "Random Forest":
 
         filename = f"rf_{feature_model.lower()}.pkl"
-
 
     else:
 
         filename = f"gb_{feature_model.lower()}.pkl"
 
-
     model_file = os.path.join(MODEL_PATH, filename)
 
-st.write("Model path:", model_file)
-st.write("Exists:", os.path.exists(model_file))
+    st.write("Model path:", model_file)
+    st.write("Exists:", os.path.exists(model_file))
 
-model = joblib.load(model_file)
+    model = joblib.load(model_file)
 
-return model
+    return model
 
 
 # ===============================================================

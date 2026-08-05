@@ -1,0 +1,13 @@
+Feature Extractor,Classification Model,Training Samples
+VGG16,CNN,25000
+ResNet50,CNN,25000
+DenseNet201,CNN,25000
+VGG16,CNN-SVM,25000
+ResNet50,CNN-SVM,25000
+DenseNet201,CNN-SVM,25000
+VGG16,Random Forest,25000
+ResNet50,Random Forest,25000
+DenseNet201,Random Forest,25000
+VGG16,Gradient Boosting,25000
+ResNet50,Gradient Boosting,25000
+DenseNet201,Gradient Boosting,25000
