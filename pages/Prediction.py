@@ -54,26 +54,6 @@ MODEL_PATH = os.path.join(
 )
 
 # ===============================================================
-# TEMPORARY DEBUG (DELETE LATER)
-# ===============================================================
-
-st.write("Current working directory:")
-st.write(os.getcwd())
-
-st.write("Base path:")
-st.write(BASE_PATH)
-
-st.write("Model path:")
-st.write(MODEL_PATH)
-
-st.write("Model folder exists:")
-st.write(os.path.exists(MODEL_PATH))
-
-if os.path.exists(MODEL_PATH):
-    st.write("Files inside model folder:")
-    st.write(os.listdir(MODEL_PATH))
-
-# ===============================================================
 # SIDEBAR
 # ===============================================================
 
@@ -177,9 +157,6 @@ def load_classifier():
 
         model_file = os.path.join(MODEL_PATH, filename)
 
-        st.write("Model path:", model_file)
-        st.write("Exists:", os.path.exists(model_file))
-
         model = load_model(model_file)
 
         return model
@@ -197,9 +174,6 @@ def load_classifier():
         filename = f"gb_{feature_model.lower()}.pkl"
 
     model_file = os.path.join(MODEL_PATH, filename)
-
-    st.write("Model path:", model_file)
-    st.write("Exists:", os.path.exists(model_file))
 
     model = joblib.load(model_file)
 
@@ -316,85 +290,86 @@ Dimension: **{load_feature_extractor(feature_model)[2]}**
             benign_probability,
             malignant_probability
         )
-        # ===============================================================
-# RESULTS
-# ===============================================================
 
-st.divider()
+    # ===============================================================
+    # RESULTS
+    # ===============================================================
 
-st.header("🧾 Prediction Results")
+    st.divider()
 
-metric1, metric2, metric3 = st.columns(3)
+    st.header("🧾 Prediction Results")
 
-with metric1:
+    metric1, metric2, metric3 = st.columns(3)
 
-    if prediction == "Malignant":
-        st.error("### 🔴 Prediction")
-        st.error("## MALIGNANT")
-    else:
-        st.success("### 🟢 Prediction")
-        st.success("## BENIGN")
+    with metric1:
 
-with metric2:
+        if prediction == "Malignant":
+            st.error("### 🔴 Prediction")
+            st.error("## MALIGNANT")
+        else:
+            st.success("### 🟢 Prediction")
+            st.success("## BENIGN")
 
-    st.metric(
-        "Confidence",
-        f"{confidence*100:.2f}%"
-    )
+    with metric2:
 
-with metric3:
+        st.metric(
+            "Confidence",
+            f"{confidence*100:.2f}%"
+        )
 
-    if confidence >= 0.90:
-        level = "Very High"
-    elif confidence >= 0.70:
-        level = "High"
-    else:
-        level = "Moderate"
+    with metric3:
 
-    st.metric(
-        "Confidence Level",
-        level
-    )
+        if confidence >= 0.90:
+            level = "Very High"
+        elif confidence >= 0.70:
+            level = "High"
+        else:
+            level = "Moderate"
 
-st.divider()
+        st.metric(
+            "Confidence Level",
+            level
+        )
 
-# ===============================================================
-# PROBABILITY DISTRIBUTION
-# ===============================================================
+    st.divider()
 
-left, right = st.columns([1,1])
+    # ===============================================================
+    # PROBABILITY DISTRIBUTION
+    # ===============================================================
 
-with left:
+    left, right = st.columns([1,1])
 
-    st.subheader("📊 Probability Distribution")
+    with left:
 
-    st.progress(float(malignant_probability))
+        st.subheader("📊 Probability Distribution")
 
-    probability_df = pd.DataFrame({
+        st.progress(float(malignant_probability))
 
-        "Class":[
-            "Benign",
-            "Malignant"
-        ],
+        probability_df = pd.DataFrame({
 
-        "Probability":[
-            round(benign_probability*100,2),
-            round(malignant_probability*100,2)
-        ]
+            "Class": [
+                "Benign",
+                "Malignant"
+            ],
 
-    })
+            "Probability": [
+                round(benign_probability*100,2),
+                round(malignant_probability*100,2)
+            ]
 
-    st.dataframe(
-        probability_df,
-        use_container_width=True,
-        hide_index=True
-    )
+        })
 
-with right:
+        st.dataframe(
+            probability_df,
+            use_container_width=True,
+            hide_index=True
+        )
 
-    st.subheader("🤖 Model Information")
+    with right:
 
-    st.info(f"""
+        st.subheader("🤖 Model Information")
+
+        st.info(f"""
 **Deep Feature Extractor**
 
 {feature_model}
@@ -416,24 +391,24 @@ with right:
 {confidence*100:.2f}%
 """)
 
-st.divider()
+    st.divider()
 
-# ===============================================================
-# CLINICAL INTERPRETATION
-# ===============================================================
+    # ===============================================================
+    # CLINICAL INTERPRETATION
+    # ===============================================================
 
-st.header("🩺 Clinical Interpretation")
+    st.header("🩺 Clinical Interpretation")
 
-if prediction == "Malignant":
+    if prediction == "Malignant":
 
-    st.error(f"""
+        st.error(f"""
 ### 🔴 Predicted Class: Malignant
 
 The uploaded tissue image has been classified as **Malignant**.
 
 ### What does this mean?
 
-A **malignant tumour** is generally considered **cancerous**.
+A malignant tumour is generally considered **cancerous**.
 
 Malignant cells usually:
 
@@ -443,26 +418,22 @@ Malignant cells usually:
 
 • may spread (metastasize) to other parts of the body
 
-This model estimates that there is a **{malignant_probability*100:.2f}% probability**
-that the uploaded histopathology image belongs to the malignant class.
+This model estimates a **{malignant_probability*100:.2f}% probability**
+that the uploaded image belongs to the malignant class.
 
-### Confidence Interpretation
-
-The prediction confidence is **{confidence*100:.2f}%**.
-
-Higher confidence indicates that the model is more certain about its prediction.
+Prediction confidence: **{confidence*100:.2f}%**
 """)
 
-else:
+    else:
 
-    st.success(f"""
+        st.success(f"""
 ### 🟢 Predicted Class: Benign
 
 The uploaded tissue image has been classified as **Benign**.
 
 ### What does this mean?
 
-A **benign tumour** is generally **non-cancerous**.
+A benign tumour is generally **non-cancerous**.
 
 Benign tissues usually:
 
@@ -472,59 +443,47 @@ Benign tissues usually:
 
 • do not spread to distant organs
 
-This model estimates that there is a **{benign_probability*100:.2f}% probability**
-that the uploaded histopathology image belongs to the benign class.
+This model estimates a **{benign_probability*100:.2f}% probability**
+that the uploaded image belongs to the benign class.
 
-### Confidence Interpretation
-
-The prediction confidence is **{confidence*100:.2f}%**.
-
-Higher confidence indicates that the model is more certain about its prediction.
+Prediction confidence: **{confidence*100:.2f}%**
 """)
 
-st.divider()
+    st.divider()
 
-# ===============================================================
-# HOW THE MODEL MADE THE DECISION
-# ===============================================================
+    # ===============================================================
+    # HOW THE MODEL MADE THE DECISION
+    # ===============================================================
 
-st.header("🧠 How the Prediction Was Generated")
+    st.header("🧠 How the Prediction Was Generated")
 
-st.markdown(f"""
+    st.markdown(f"""
 The uploaded histopathology image first passed through the **{feature_model}**
 deep convolutional neural network, which extracted high-level visual
 representations from the tissue image.
 
 Instead of classifying the image directly, these deep feature vectors were
 supplied to the selected **{classifier}** classifier, which produced the final
-prediction by analysing the extracted feature representation.
+prediction.
 
-This two-stage approach combines powerful deep feature extraction with
+This two-stage approach combines deep learning feature extraction with
 traditional machine learning classification.
 """)
 
-st.divider()
+    st.divider()
 
-# ===============================================================
-# DISCLAIMER
-# ===============================================================
+    # ===============================================================
+    # DISCLAIMER
+    # ===============================================================
 
-st.warning("""
+    st.warning("""
 ## ⚠ Important Disclaimer
 
-This dashboard was developed as part of an MSc dissertation for
-research and educational purposes.
+This dashboard was developed as part of an MSc dissertation for research and educational purposes.
 
-The predictions generated by this system **must not** be interpreted as a
-medical diagnosis.
+The predictions generated by this system **must not** be interpreted as a medical diagnosis.
 
-Although the models were trained using publicly available histopathology
-datasets, real clinical diagnosis requires comprehensive pathological
-assessment by qualified healthcare professionals.
-
-Therefore, this system should only be used to demonstrate the application
-of deep learning and machine learning techniques for automated
-histopathology image classification.
+Clinical diagnosis should always be performed by qualified healthcare professionals.
 """)
 
-st.success("✅ Prediction completed successfully.")
+    st.success("✅ Prediction completed successfully.")
